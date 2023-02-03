@@ -1,0 +1,12 @@
+@import "src/index.scss";
+
+.box {
+  margin-top: 20px;
+  max-width: 250px;
+  border-bottom: 2px solid black;
+  input {
+    padding: 5px;
+    background-color: transparent;
+    font-family: sans-serif;
+  }
+}

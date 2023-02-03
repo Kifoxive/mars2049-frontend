@@ -1,0 +1,13 @@
+@import "src/index.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: $fifth;
+  .wrapper {
+    max-width: 800px;
+  }
+}

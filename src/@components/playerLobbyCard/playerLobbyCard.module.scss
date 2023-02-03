@@ -1,0 +1,20 @@
+@import "src/index.scss";
+
+.box {
+  margin-top: 20px;
+  border-radius: 0 20px 20px 0;
+  background-color: $fourth;
+  &__wrapper {
+    padding: 20px;
+    height: 80px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      color: $first;
+      font-size: 20px;
+      font-family: sans-serif;
+    }
+  }
+}

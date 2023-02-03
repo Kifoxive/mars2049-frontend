@@ -1,0 +1,153 @@
+@import "src/index.scss";
+
+.small_resource_card {
+  border: 1px solid $first;
+  border-radius: 2px;
+  overflow: hidden;
+  &__box {
+    height: 24px;
+    width: 14px;
+    &.air {
+      background-color: $air;
+    }
+    &.food {
+      background-color: $food;
+    }
+    &.mineral {
+      background-color: $mineral;
+    }
+    &.road_cards {
+      background-color: rgb(65, 2, 65);
+    }
+  }
+}
+
+.resource_card {
+  position: absolute;
+  border: 1px solid $first;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 60px;
+  &__box {
+    height: 100px;
+    width: 60px;
+    &.air {
+      background-color: $air;
+    }
+    &.food {
+      background-color: $food;
+    }
+    &.mineral {
+      background-color: $mineral;
+    }
+    &.road_cards {
+      background-color: rgb(65, 2, 65);
+    }
+  }
+}
+
+.scene {
+  width: 100px;
+  height: 100px;
+  perspective: 600px;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  //styling for 3D Cube
+  .cube {
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+    // transform: translateZ(-100px);
+    transition: transform 1s;
+
+    //styling for 3D Cube transforms / animations on face select (on roll)
+    // &.show-0 {
+    //   transform: translateZ(-100px) rotateY(0deg);
+    // }
+    // &.show-1 {
+    //   transform: translateZ(-100px) rotateY(-180deg);
+    // }
+    // &.show-2 {
+    //   transform: translateZ(-100px) rotateY(-90deg);
+    // }
+    // &.show-3 {
+    //   transform: translateZ(-100px) rotateY(90deg);
+    // }
+    // &.show-4 {
+    //   transform: translateZ(-100px) rotateX(-90deg);
+    // }
+    // &.show-5 {
+    //   transform: translateZ(-100px) rotateX(90deg);
+    // }
+
+    &.show-0 {
+      transform: translateZ(-100px) rotateX(-10deg) rotateY(10deg);
+    }
+    &.show-1 {
+      transform: translateZ(-100px) rotateY(-170deg) rotateX(10deg);
+    }
+    &.show-2 {
+      transform: translateZ(-100px) rotateY(-80deg) rotateZ(10deg);
+    }
+    &.show-3 {
+      transform: translateZ(-100px) rotateY(100deg) rotateZ(-10deg);
+    }
+    &.show-4 {
+      transform: translateZ(-100px) rotateX(-100deg) rotateZ(10deg);
+    }
+    &.show-5 {
+      transform: translateZ(-100px) rotateX(80deg) rotateZ(-10deg);
+    }
+
+    //universal style for cube faces
+    .cube__face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 2px solid black;
+      background-color: rgb(251, 244, 229);
+      line-height: 100px;
+      // font-size: 40px;
+      font-size: 20px;
+      font-weight: bold;
+      color: black;
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    .cube__face_0 {
+      transform: rotateY(0deg) translateZ(50px);
+    }
+    .cube__face_1 {
+      transform: rotateY(180deg) translateZ(50px);
+    }
+    .cube__face_2 {
+      transform: rotateY(90deg) translateZ(50px);
+    }
+    .cube__face_3 {
+      transform: rotateY(-90deg) translateZ(50px);
+    }
+    .cube__face_4 {
+      transform: rotateX(90deg) translateZ(50px);
+    }
+    .cube__face_5 {
+      transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    //individual styling for each numbers face
+    // .cube__face_0 {
+    // }
+    // .cube__face_1 {
+    // }
+    // .cube__face_2 {
+    // }
+    // .cube__face_3 {
+    // }
+    // .cube__face_4 {
+    // }
+    // .cube__face_5 {
+    // }
+  }
+}

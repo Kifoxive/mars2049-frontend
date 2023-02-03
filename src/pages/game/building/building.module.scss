@@ -1,0 +1,93 @@
+@import "src/index.scss";
+
+.building {
+  z-index: 10;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  border: 1px solid black;
+  transform: translate(-50%, -50%);
+  &.green {
+    background-color: $player-green;
+  }
+  &.orange {
+    background-color: $player-orange;
+  }
+  &.pink {
+    background-color: $player-pink;
+  }
+  &.blue {
+    background-color: $player-blue;
+  }
+  &.air_station {
+    // border: 2px solid black;
+    border-radius: 50%;
+  }
+  &.food_station {
+    // border: 2px solid black;
+    border-radius: 50%;
+  }
+  &.mineral_station {
+    // border: 2px solid black;
+    border-radius: 50%;
+  }
+  &.base {
+    // border: 2px solid white;
+    border-radius: 50%;
+    background-image: url(../../../assets/white-star.png);
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+  }
+  &.laboratory {
+  }
+  &.peaceful_mission {
+  }
+  &.agressive_mission {
+  }
+  &.roads {
+  }
+  &.H2O_station {
+  }
+
+  &:hover {
+    // opacity: 0.6;
+    border: 1px dashed black;
+  }
+}
+
+.poss_build {
+  height: 40px;
+  width: 40px;
+  z-index: 10;
+  position: absolute;
+  background: rgb(255, 255, 255);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(70, 252, 91, 0.8) 100%
+  );
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 120%;
+  text-align: center;
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.8);
+
+  &:hover {
+    aspect-ratio: 1;
+    clip-path: polygon(
+      100% 50%,
+      90.45% 79.39%,
+      65.45% 97.55%,
+      34.55% 97.55%,
+      9.55% 79.39%,
+      0% 50%,
+      9.55% 20.61%,
+      34.55% 2.45%,
+      65.45% 2.45%,
+      90.45% 20.61%
+    );
+  }
+}

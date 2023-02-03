@@ -1,0 +1,128 @@
+@charset "UTF-8";
+/*Обнуление*/
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+/*--------------------*/
+
+// $first: #f0e7e7;
+// $second: #451804;
+// $third: #c1440e;
+// $fourth: #e77d11;
+// $fifth: #fda600;
+
+// $first: #06113c;
+// $second: #ff8c32;
+// $third: #c1440e;
+// $fourth: #dddddd;
+// $fifth: #eeeeee
+
+$first: #ffffff;
+$second: #ffcad4;
+$third: #b0d0d3;
+$fourth: #c08497;
+$fifth: #f7af9d;
+
+$player-green: rgb(169, 195, 65);
+$player-orange: rgb(222, 108, 46);
+$player-pink: rgb(163, 54, 93);
+$player-blue: rgb(79, 172, 204);
+
+$air: rgb(16, 148, 205);
+$food: rgb(28, 151, 28);
+$mineral: rgb(215, 40, 40);
+$road_cards: rgb(65, 2, 65);
+$peaceful_mission: gray;
+$agressive_mission: black;
+
+$black: #222831;

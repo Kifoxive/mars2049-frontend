@@ -1,0 +1,49 @@
+@import "src/index.scss";
+
+.container {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  z-index: 50;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: 2px dashed $second;
+    min-height: 160px;
+    width: 350px;
+    background-color: $fourth;
+    border-radius: 0 0 20px 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+    &__content {
+      padding: 20px;
+      h3 {
+        text-align: center;
+        padding-bottom: 30px;
+        font-size: 30px;
+      }
+      &__text {
+        display: flex;
+        justify-content: space-between;
+        p {
+          font-size: 16px;
+        }
+        &__component {
+        }
+      }
+    }
+    button {
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      background-color: $fourth;
+      color: $second;
+      border-top: 2px dashed $second;
+      &:hover {
+        color: $fourth;
+        background-color: $second;
+      }
+    }
+  }
+}
