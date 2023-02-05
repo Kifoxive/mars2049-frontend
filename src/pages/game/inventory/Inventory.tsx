@@ -5,7 +5,7 @@ import { ResourceCard } from "../items/Items";
 
 interface ICardStock {
   count: number;
-  resource: "air" | "food" | "mineral";
+  resource: "air" | "food" | "mineral" | "road_cards";
 }
 
 const CardStack: React.FC<ICardStock> = ({
@@ -57,7 +57,6 @@ const Inventory: React.FC<IInventory> = ({
   road_cards,
 }) => {
   const { air, food, mineral } = cards;
-  //   const { peaceful_mission };
 
   const air_stack = CardStack({
     count: air,
@@ -71,10 +70,15 @@ const Inventory: React.FC<IInventory> = ({
     count: mineral,
     resource: "mineral",
   });
+  const road_cards_stack = CardStack({
+    count: road_cards,
+    resource: "road_cards",
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {road_cards_stack}
         {air_stack}
         {food_stack}
         {mineral_stack}

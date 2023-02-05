@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./board.module.scss";
 
-import { IGameData } from "src/pages/game/types";
+import { IGameData, IPossibleBuildings } from "src/pages/game/types";
 import Building, {
   PossiblyBuildingPlace,
 } from "src/pages/game/building/Building";
@@ -21,6 +21,7 @@ function getBoardGrid(HEIGHT: number) {
       boardGrid[i][j - 1] = { y: Math.round(y), x: Math.round(x) };
     }
   }
+
   return boardGrid;
 }
 
@@ -67,6 +68,15 @@ function makeShift(shift: number, meridian: number) {
   return result;
 }
 
+const PossibleBuildings = {
+  all: ["air_station", "food_station", "mineral_station", "base", "laboratory"],
+  no_base: ["air_station", "food_station", "mineral_station", "laboratory"],
+  no_labaratory: ["air_station", "food_station", "mineral_station", "base"],
+  station: ["air_station", "food_station", "mineral_station"],
+  road: ["road"],
+  H2O_station: ["H2O_station"],
+};
+
 const Board: React.FC<IGameData & { shift: number; addBuilding: Function }> = ({
   board,
   shift,
@@ -79,24 +89,48 @@ const Board: React.FC<IGameData & { shift: number; addBuilding: Function }> = ({
   const paralels = Paralels(HEIGHT);
   const boardCoorGrid = React.useMemo(() => getBoardGrid(HEIGHT), [HEIGHT]);
 
-  const boardBuildings: Array<React.ReactElement<typeof Building> | null> = [];
+  const boardBuildings: Array<
+    React.ReactElement<typeof Building> | IPossibleBuildings | null
+  > = [];
+
+  if (
+    typeof desiredBuilding === "string" &&
+    desiredBuilding === "H2O_station"
+  ) {
+    boardBuildings.push(
+      <PossiblyBuildingPlace
+        indexP={6}
+        indexM={0}
+        y={HEIGHT / 2}
+        x={HEIGHT / 2}
+        key={`${HEIGHT / 2}/${HEIGHT / 2}`}
+        addBuilding={addBuilding}
+      />
+    );
+  }
 
   board.forEach((paralel, indexP) => {
     paralel.forEach((item, indexM) => {
       const { y, x } = boardCoorGrid[indexP][makeShift(shift, indexM)];
       if (item === null) return;
-      else if (item === true) {
+      else if (typeof item === "string") {
         if (desiredBuilding === null) return;
-        boardBuildings.push(
-          <PossiblyBuildingPlace
-            indexP={indexP}
-            indexM={indexM}
-            y={y}
-            x={x}
-            key={`${indexM}/${indexP}`}
-            addBuilding={addBuilding}
-          />
-        );
+
+        if (typeof desiredBuilding === "string") {
+          if (PossibleBuildings[item].includes(desiredBuilding)) {
+            boardBuildings.push(
+              <PossiblyBuildingPlace
+                indexP={indexP}
+                indexM={indexM}
+                y={y}
+                x={x}
+                key={`${indexM}/${indexP}`}
+                addBuilding={addBuilding}
+                text={item}
+              />
+            );
+          }
+        }
         return;
       }
 
@@ -108,7 +142,17 @@ const Board: React.FC<IGameData & { shift: number; addBuilding: Function }> = ({
         x,
       };
 
-      boardBuildings.push(<Building {...props} key={`${indexM}/${indexP}`} />);
+      if (typeof item.building !== "string") return;
+
+      boardBuildings.push(
+        <Building
+          {...props}
+          key={`${indexM}/${indexP}`}
+          rotateDeg={
+            item.building === "road" ? 180 - (item.meridian - shift) * 15 : 0
+          }
+        />
+      );
     });
   });
   return (

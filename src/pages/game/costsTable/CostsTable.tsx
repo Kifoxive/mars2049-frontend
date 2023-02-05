@@ -10,7 +10,7 @@ const itemsNames = {
   laboratory: "Laboratory",
   peaceful_mission: "Peaceful Mission",
   agressive_mission: "Agressive Mission",
-  roads: "Road to H2O station",
+  road: "Road to H2O station",
   H2O_station: "H2O station",
 };
 
@@ -19,12 +19,12 @@ interface ICostsTable {
   buildingCosts: {
     air_station: { food: number; mineral: number };
     food_station: { air: number; mineral: number };
-    mineral_station: { air: number; mineral: number };
+    mineral_station: { air: number; food: number };
     base: { air: number; food: number; mineral: number };
     laboratory: { air: number; mineral: number };
     peaceful_mission: { air: number; food: number };
     agressive_mission: { air: number; mineral: number };
-    roads: { road_cards: number };
+    road: { road_cards: number };
     H2O_station: { air: number; food: number; mineral: number };
   };
 }

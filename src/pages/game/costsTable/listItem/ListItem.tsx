@@ -21,7 +21,7 @@ interface ListItem {
     | "laboratory"
     | "peaceful_mission"
     | "agressive_mission"
-    | "roads"
+    | "road"
     | "H2O_station";
 }
 
@@ -44,7 +44,7 @@ const ListItem: React.FC<ListItem> = ({ text, pricing, building }) => {
           //  return <div key={index}></div>;
           const groupCards: React.ReactElement<typeof SmallResourceCard>[] = [];
           const cardsCount = pricing[priceGroup];
-          // it definitely a number
+          // it`s definitely a number
           //  @ts-ignore
           if (cardsCount > 4)
             return (

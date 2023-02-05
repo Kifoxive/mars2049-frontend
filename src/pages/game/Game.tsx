@@ -169,6 +169,9 @@ const Game = () => {
   socket.on(
     "server_message",
     ({ title, message }: { title: string; message: string }) => {
+      console.log(title);
+
+      setShowPopup(true);
       setPopup({
         title,
         message,
@@ -203,12 +206,12 @@ const Game = () => {
               buildingCosts={{
                 air_station: { food: 2, mineral: 2 },
                 food_station: { air: 2, mineral: 2 },
-                mineral_station: { air: 2, mineral: 2 },
+                mineral_station: { air: 2, food: 2 },
                 base: { air: 3, food: 3, mineral: 3 },
                 laboratory: { air: 4, mineral: 3 },
                 peaceful_mission: { air: 3, food: 1 },
                 agressive_mission: { air: 1, mineral: 3 },
-                roads: { road_cards: 3 },
+                road: { road_cards: 3 },
                 H2O_station: { air: 8, food: 8, mineral: 8 },
               }}
               color={privateGameState.color}

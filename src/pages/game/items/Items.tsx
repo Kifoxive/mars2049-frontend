@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IDiceSymbols } from "../types";
 import styles from "./items.module.scss";
 
 interface ISmallResourceCard {

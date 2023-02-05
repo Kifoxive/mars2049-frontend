@@ -46,7 +46,7 @@ export type IUserData = {
     agressive_mission: Object[];
   };
 
-  roads: number;
+  road: number;
   road_cards: number;
 
   H2O_station: boolean;
@@ -62,9 +62,7 @@ export enum buildings {
   "mineral_station",
   "base",
   "laboratory",
-  "peaceful_mission",
-  "agressive_mission",
-  "roads",
+  "road",
   "H2O_station",
 }
 
@@ -82,10 +80,11 @@ export interface IBuilding {
   color: string;
   y: number;
   x: number;
+  rotateDeg?: number;
 }
 
 export type IGameData = {
-  board: Array<IBuildingObj | null | true>[];
+  board: Array<IBuildingObj | IPossibleBuildings | null>[];
   currentTurnPlayer: IUserData;
   totalGameTurn: number;
 };
@@ -98,17 +97,10 @@ export type IDiceSymbols =
   | "skip"
   | "air";
 
-// export type IDesiredBuilding = {
-//   building:
-//     | "air_station"
-//     | "food_station"
-//     | "mineral_station"
-//     | "base"
-//     | "laboratory"
-//     | "peaceful_mission"
-//     | "agressive_mission"
-//     | "roads"
-//     | "H2O_station";
-//   paralel: number;
-//   meridian: number;
-// };
+export type IPossibleBuildings =
+  | "all"
+  | "no_base"
+  | "no_labaratory"
+  | "station"
+  | "road"
+  | "H2O_station";
