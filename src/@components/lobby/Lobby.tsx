@@ -3,6 +3,7 @@ import styles from "./lobby.module.scss";
 
 import { PlayerLobbyCard, Button } from "src/@components";
 import { profile } from "src/assets";
+import { Navigate, useNavigate } from "react-router-dom";
 interface ILobby {
   players: string[];
   isCreator: boolean;
@@ -20,6 +21,20 @@ const Lobby: React.FC<ILobby> = ({
   currentRoomName,
   socket,
 }) => {
+  const navigate = useNavigate();
+
+  socket.on("remove_player", () => {
+    navigate("/rooms");
+  });
+
+  const removePlayer = (removePlayerName: string) => {
+    socket.emit("remove_player", {
+      roomName: currentRoomName,
+      playerName,
+      removePlayerName,
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -32,6 +47,7 @@ const Lobby: React.FC<ILobby> = ({
               playerName={player}
               isMyName={playerName === player}
               isAdmin={isCreator}
+              removePlayer={removePlayer}
             />
           ))}
         </div>

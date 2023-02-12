@@ -1,9 +1,9 @@
 @import "src/index.scss";
 
 .small_resource_card {
-  border: 1px solid $first;
-  border-radius: 2px;
   overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid $first;
   &__box {
     height: 24px;
     width: 14px;
@@ -23,12 +23,12 @@
 }
 
 .resource_card {
-  position: absolute;
-  border: 1px solid $first;
-  border-radius: 4px;
   overflow: hidden;
-  width: 60px;
+  border-radius: 4px;
+  border: 1px solid gray;
   &__box {
+    box-sizing: content-box;
+    border: 2px solid $first;
     height: 100px;
     width: 60px;
     &.air {
@@ -42,6 +42,44 @@
     }
     &.road_cards {
       background-color: $road_cards;
+    }
+  }
+}
+
+.resource_token {
+  height: fit-content;
+  width: fit-content;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid gray;
+  &__box {
+    height: 70px;
+    width: 70px;
+    border: 2px solid $first;
+    border-radius: 50%;
+    box-sizing: content-box;
+    text-align: center;
+    line-height: 240%;
+    font-size: 30px;
+    font-family: sans-serif;
+    color: $first;
+    &.air_three {
+      background-color: $air;
+    }
+    &.air_eight {
+      background-color: $air;
+    }
+    &.food_three {
+      background-color: $food;
+    }
+    &.food_eight {
+      background-color: $food;
+    }
+    &.mineral_three {
+      background-color: $mineral;
+    }
+    &.mineral_eight {
+      background-color: $mineral;
     }
   }
 }

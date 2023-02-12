@@ -5,12 +5,13 @@
   box-sizing: content-box;
   .mars {
     position: relative;
-    transition: 1s;
-    //  transform: rotate3d(1, 0, 0, 40deg);
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    // transition: 1s;
+    // transform: rotate3d(1, 0, 0, 40deg);
+    // perspective: 6000px;
+    // transform-style: preserve-3d;
     height: 100%;
     width: 100%;
     background: url("../../assets/mars.png") 100% center / cover no-repeat;

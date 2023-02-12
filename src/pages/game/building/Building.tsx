@@ -45,7 +45,7 @@ export const PossiblyBuildingPlace: React.FC<IPossiblyBuildingPlace> = ({
   indexP,
   indexM,
   addBuilding,
-  text,
+  // text,
 }) => {
   const { desiredBuilding } = useAppSelector((state) => state.game);
 

@@ -1,0 +1,50 @@
+@import "src/index.scss";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  .wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .infoTables_control {
+    display: flex;
+    flex-grow: 0;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    button {
+      position: relative;
+      font-family: sans-serif;
+      display: block;
+      padding: 5px;
+      width: 40px;
+      height: 70px;
+      background-color: $fourth;
+      border: 1px solid transparent;
+      &._selected {
+        background-color: $second;
+      }
+      img {
+        width: 100%;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        height: 100%;
+        width: 100%;
+        z-index: 8;
+      }
+      &:hover {
+        border: 0px solid transparent;
+      }
+    }
+  }
+}

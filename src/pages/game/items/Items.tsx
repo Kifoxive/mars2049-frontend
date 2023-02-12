@@ -25,35 +25,61 @@ interface IResourceCard {
     | "peaceful_mission"
     | "agressive_mission"
     | "road_cards";
-  shift: number;
+  shift?: number;
 }
 
 export const ResourceCard: React.FC<IResourceCard> = ({ resource, shift }) => {
   return (
     <div
       className={styles.resource_card}
-      style={{
-        top: `${shift * 5}px`,
-        left: `${shift * 1.3}px`,
-      }}
+      style={
+        shift
+          ? {
+              position: "absolute",
+              top: `${shift * 5}px`,
+              left: `${shift * 1.3}px`,
+            }
+          : {}
+      }
     >
-      <div className={`${styles.resource_card__box} ${styles[resource]}`}></div>
+      <div className={`${styles.resource_card__box} ${styles[resource]}`} />
     </div>
   );
 };
 
-interface IToken {
-  type: {
-    air: "three" | "eight";
-    food: "three" | "eight";
-    mineral: "three" | "eight";
-  };
+interface IResourceToken {
+  type:
+    | "air_three"
+    | "air_eight"
+    | "food_three"
+    | "food_eight"
+    | "mineral_three"
+    | "mineral_eight";
+  shift?: number;
+  text: string;
 }
 
-export const Token: React.FC<IToken> = ({ type }) => {
+export const ResourceToken: React.FC<IResourceToken> = ({
+  type,
+  shift,
+  text,
+}) => {
   return (
-    <div className={styles.token}>
-      <div className={styles.token__box}></div>
+    <div
+      className={styles.resource_token}
+      style={
+        shift
+          ? {
+              position: "absolute",
+              top: `${shift * 5}px`,
+              left: `${shift * 1.3}px`,
+            }
+          : {}
+      }
+    >
+      <div className={`${styles.resource_token__box} ${styles[type]}`}>
+        {text}
+      </div>
     </div>
   );
 };

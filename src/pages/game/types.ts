@@ -1,8 +1,10 @@
 "use strict";
 
+export type IPlayerColor = "green" | "orange" | "pink" | "blue";
+
 export type IUserData = {
   username: string;
-  color: "green" | "orange" | "pink" | "blue";
+  color: IPlayerColor;
   playerId: string | null;
 
   bases: number;
@@ -87,6 +89,8 @@ export type IGameData = {
   board: Array<IBuildingObj | IPossibleBuildings | null>[];
   currentTurnPlayer: IUserData;
   totalGameTurn: number;
+  winner: IUserData;
+  diceSymbol: IDiceSymbols;
 };
 
 export type IDiceSymbols =
@@ -104,3 +108,10 @@ export type IPossibleBuildings =
   | "station"
   | "road"
   | "H2O_station";
+
+export type IPopup = {
+  title: string;
+  message: string;
+  type: "message" | "error" | "dice";
+  component: null | React.ReactElement;
+};

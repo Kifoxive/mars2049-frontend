@@ -12,10 +12,12 @@ function getBoardGrid(HEIGHT: number) {
   const RAD15 = Math.PI / 12;
   const boardGrid: Array<{ y: number; x: number }>[] = [];
 
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 0; i < 7; i++) {
     const R = CIRCLE_R - (i * HEIGHT) / 12;
     boardGrid[i] = [];
+
     for (let j = 1; j <= 24; j++) {
+      if (j === 2 && i === 6) break;
       const y = R * Math.cos(RAD15 * j) + R + CIRCLE_R - R;
       const x = R * Math.sin(RAD15 * j) + R + CIRCLE_R - R;
       boardGrid[i][j - 1] = { y: Math.round(y), x: Math.round(x) };
@@ -93,66 +95,72 @@ const Board: React.FC<IGameData & { shift: number; addBuilding: Function }> = ({
     React.ReactElement<typeof Building> | IPossibleBuildings | null
   > = [];
 
-  if (
-    typeof desiredBuilding === "string" &&
-    desiredBuilding === "H2O_station"
-  ) {
-    boardBuildings.push(
-      <PossiblyBuildingPlace
-        indexP={6}
-        indexM={0}
-        y={HEIGHT / 2}
-        x={HEIGHT / 2}
-        key={`${HEIGHT / 2}/${HEIGHT / 2}`}
-        addBuilding={addBuilding}
-      />
-    );
-  }
+  // if (
+  //   typeof desiredBuilding === "string" &&
+  //   desiredBuilding === "H2O_station"
+  // ) {
+  //   boardBuildings.push(
+  //     <PossiblyBuildingPlace
+  //       indexP={6}
+  //       indexM={0}
+  //       y={HEIGHT / 2}
+  //       x={HEIGHT / 2}
+  //       key={`${HEIGHT / 2}/${HEIGHT / 2}`}
+  //       addBuilding={addBuilding}
+  //     />
+  //   );
+  // }
 
   board.forEach((paralel, indexP) => {
     paralel.forEach((item, indexM) => {
-      const { y, x } = boardCoorGrid[indexP][makeShift(shift, indexM)];
-      if (item === null) return;
-      else if (typeof item === "string") {
-        if (desiredBuilding === null) return;
+      try {
+        const { y, x } =
+          boardCoorGrid[indexP][indexP < 6 ? makeShift(shift, indexM) : 0];
 
-        if (typeof desiredBuilding === "string") {
-          if (PossibleBuildings[item].includes(desiredBuilding)) {
-            boardBuildings.push(
-              <PossiblyBuildingPlace
-                indexP={indexP}
-                indexM={indexM}
-                y={y}
-                x={x}
-                key={`${indexM}/${indexP}`}
-                addBuilding={addBuilding}
-                text={item}
-              />
-            );
+        if (item === null) return;
+        else if (typeof item === "string") {
+          if (desiredBuilding === null) return;
+
+          if (typeof desiredBuilding === "string") {
+            if (PossibleBuildings[item].includes(desiredBuilding)) {
+              boardBuildings.push(
+                <PossiblyBuildingPlace
+                  indexP={indexP}
+                  indexM={indexM}
+                  y={y}
+                  x={x}
+                  key={`${indexM}/${indexP}`}
+                  addBuilding={addBuilding}
+                  text={item}
+                />
+              );
+            }
           }
+          return;
         }
-        return;
+
+        const props = {
+          building: item.building,
+          owner: item.owner,
+          color: item.color,
+          y,
+          x,
+        };
+
+        if (typeof item.building !== "string") return;
+
+        boardBuildings.push(
+          <Building
+            {...props}
+            key={`${indexM}/${indexP}`}
+            rotateDeg={
+              item.building === "road" ? 180 - (item.meridian - shift) * 15 : 0
+            }
+          />
+        );
+      } catch (err) {
+        console.log(err);
       }
-
-      const props = {
-        building: item.building,
-        owner: item.owner,
-        color: item.color,
-        y,
-        x,
-      };
-
-      if (typeof item.building !== "string") return;
-
-      boardBuildings.push(
-        <Building
-          {...props}
-          key={`${indexM}/${indexP}`}
-          rotateDeg={
-            item.building === "road" ? 180 - (item.meridian - shift) * 15 : 0
-          }
-        />
-      );
     });
   });
   return (

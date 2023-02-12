@@ -21,6 +21,7 @@ const Rooms: React.FC = () => {
 
   const onFetchClick = async () => {
     const { payload } = await dispatch(fetchRooms());
+
     setRooms(payload.rooms);
   };
 
@@ -57,6 +58,7 @@ const Rooms: React.FC = () => {
               key={index}
               roomName={item.roomName}
               roomCreator={item.roomCreator}
+              roomPlayers={item.roomPlayers}
             />
           ))}
         </div>

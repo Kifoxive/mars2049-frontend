@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./costsTable.module.scss";
+
 import ListItem from "./listItem/ListItem";
+import { useAppDispatch, useAppSelector } from "src/redux/store";
+import { setDesiredBuilding } from "src/redux/slices/gameSlice";
 
 const itemsNames = {
   air_station: "Air Station",
@@ -27,10 +30,21 @@ interface ICostsTable {
     road: { road_cards: number };
     H2O_station: { air: number; food: number; mineral: number };
   };
+  isActive: boolean;
 }
 
-const CostsTable: React.FC<ICostsTable> = ({ buildingCosts, color }) => {
+const CostsTable: React.FC<ICostsTable> = ({
+  buildingCosts,
+  color,
+  isActive,
+}) => {
   const rows = Object.keys(buildingCosts) as (keyof typeof buildingCosts)[];
+  const dispatch = useAppDispatch();
+  const desiredBuilding = useAppSelector((state) => state.game.desiredBuilding);
+
+  const onSetDesiredBuildingClick = (building: string) => {
+    dispatch(setDesiredBuilding(building));
+  };
 
   return (
     <div className={`${styles.container} ${styles[color]}`}>
@@ -44,6 +58,10 @@ const CostsTable: React.FC<ICostsTable> = ({ buildingCosts, color }) => {
                 text={itemsNames[rowName]}
                 pricing={buildingCosts[rowName]}
                 building={rowName}
+                // @ts-ignore everything is good
+                selected={rowName === desiredBuilding}
+                color={color}
+                setDesiredBuilding={onSetDesiredBuildingClick}
               />
             );
           })}

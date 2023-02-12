@@ -1,20 +1,46 @@
 @import "src/index.scss";
 
 .container {
-  background-color: rgba(255, 255, 255, 0.8);
   height: 100%;
-  border-radius: 10px 0 0 10px;
-  overflow: hidden;
   .wrapper {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px 0 0 10px;
+    overflow: hidden;
     height: 100%;
     padding: 10px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: start;
     gap: 20px;
-    .card_group {
+    .token_group {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: space-between;
+      gap: 5px;
+      margin-bottom: 5px;
+      .token_stack {
+        height: 100%;
+        position: relative;
+        width: 70px;
+      }
+    }
+    .card_stack {
       width: 60px;
+      // margin: 0 30px;
       position: relative;
     }
+    &.green {
+      border: 4px solid $player-green;
+    }
+    &.orange {
+      border: 4px solid $player-orange;
+    }
+    &.pink {
+      border: 4px solid $player-pink;
+    }
+    &.blue {
+      border: 4px solid $player-blue;
+    }
+    border-right: none !important;
   }
 }

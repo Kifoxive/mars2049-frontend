@@ -3,21 +3,39 @@ import styles from "./controlPanel.module.scss";
 
 interface IButtonFinish {
   isActive: boolean;
+  isWinner: boolean;
   onTurnClick: MouseEventHandler<HTMLButtonElement>;
+  onWinClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const ButtonFinish: React.FC<IButtonFinish> = ({ isActive, onTurnClick }) => {
+const ButtonFinish: React.FC<IButtonFinish> = ({
+  isActive,
+  isWinner,
+  onTurnClick,
+  onWinClick,
+}) => {
   return (
-    <div className={styles.finishButton}>
-      <button
-        className={`${styles.finishButton} ${
-          isActive ? "" : styles.finishButton__disabled
-        }`}
-        disabled={!isActive}
-        onClick={onTurnClick}
-      >
-        complete the move
-      </button>
+    <div className={styles.finishButton_container}>
+      {isWinner ? (
+        <button
+          className={`${styles.finishButton}  
+        ${styles.winnerButton}`}
+          disabled={!isActive}
+          onClick={onWinClick}
+        >
+          finish the game
+        </button>
+      ) : (
+        <button
+          className={`${styles.finishButton} ${
+            isActive ? "" : styles.finishButton__disabled
+          }`}
+          disabled={!isActive}
+          onClick={onTurnClick}
+        >
+          complete the move
+        </button>
+      )}
     </div>
   );
 };
@@ -25,17 +43,21 @@ const ButtonFinish: React.FC<IButtonFinish> = ({ isActive, onTurnClick }) => {
 interface IControlPanel {
   color: "green" | "orange" | "pink" | "blue";
   playerName: string;
-  isActive: boolean;
-  onTurnClick: MouseEventHandler<HTMLButtonElement>;
   totalGameTurn: number;
+  isActive: boolean;
+  isWinner: boolean;
+  onTurnClick: MouseEventHandler<HTMLButtonElement>;
+  onWinClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 const ControlPanel: React.FC<IControlPanel> = ({
-  playerName,
   color,
-  isActive,
-  onTurnClick,
+  playerName,
   totalGameTurn,
+  isActive,
+  isWinner,
+  onTurnClick,
+  onWinClick,
 }) => {
   return (
     <div className={styles.container}>
@@ -45,7 +67,12 @@ const ControlPanel: React.FC<IControlPanel> = ({
         </p>
         <div className={styles.wrapper__turn_side}>
           <span className={styles.counter}>{totalGameTurn}</span>
-          <ButtonFinish isActive={isActive} onTurnClick={onTurnClick} />
+          <ButtonFinish
+            isActive={isActive}
+            isWinner={isWinner}
+            onTurnClick={onTurnClick}
+            onWinClick={onWinClick}
+          />
         </div>
       </div>
     </div>

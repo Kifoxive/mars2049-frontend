@@ -7,14 +7,16 @@ import { io, Socket } from "socket.io-client";
 import { Navigate } from "react-router-dom";
 import { Lobby } from "src/@components";
 import ControlPanel from "./controlPanel/ControlPanel";
-import CostsTable from "./costsTable/CostsTable";
-import { buildings, IDiceSymbols, IUserData } from "./types";
+import CostsTable from "./infoTables/costsTable/CostsTable";
+import { buildings, IDiceSymbols, IPopup, IUserData } from "./types";
 import Inventory from "./inventory/Inventory";
 import { Dice } from "./items/Items";
 import { IGameData } from "src/pages/game/types";
 import Popup from "../../@components/popup/Popup";
 import { useAppDispatch } from "src/redux/store";
-import { setSocket } from "src/redux/slices/gameSlice";
+import { setDesiredBuilding } from "src/redux/slices/gameSlice";
+import InfoTables from "./infoTables/InfoTables";
+// import { setSocket } from "src/redux/slices/gameSlice";
 
 const Game = () => {
   const { currentRoomName, playerName } = useAppSelector(
@@ -29,19 +31,17 @@ const Game = () => {
   const [gameData, setGameData] = useState<IGameData>();
   const [privateGameState, setPrivateGameState] = useState<IUserData | null>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [popup, setPopup] = useState<{
-    title: string;
-    message: string;
-    component: null | React.ReactElement;
-  }>({
+  const [popup, setPopup] = useState<IPopup>({
     title: "",
     message: "",
+    type: "message",
     component: null,
   });
   const [curTurnPlayer, setCurTurnPlayer] = useState<IUserData>();
   const [isMyTurn, setIsMyTurn] = useState<boolean>(false);
   const [diced, setDiced] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const [wantToShowPopup, setWantToShowPopup] = useState<boolean>(false);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
 
   // const { desiredBuilding } = useAppSelector((state) => state.game);
 
@@ -90,8 +90,8 @@ const Game = () => {
     setPlayers(players);
   });
 
-  socket.on("allow_start_game", () => {
-    setAllowStartGame(true);
+  socket.on("allow_start_game", (value: boolean) => {
+    setAllowStartGame(value);
   });
 
   socket.on("get_private_data", (playerData: IUserData) => {
@@ -99,7 +99,6 @@ const Game = () => {
   });
 
   socket.on("new_turn", (game: IGameData) => {
-    // console.log(game);
     showWhoIsPlaying(game.currentTurnPlayer.username);
     // setIsStartGame(true);
     // setCurTurnPlayer(game.currentTurnPlayer);
@@ -119,37 +118,46 @@ const Game = () => {
     setGameData(privateData);
   });
 
+  socket.on("confirm_win", (gameData: IGameData) => {
+    if (gameData.winner.username === playerName) {
+      setIsWinner(true);
+    }
+    setGameData(gameData);
+  });
+
   const onTurnClick = () => {
     if (!isMyTurn) return;
     setDiced(false);
     socket.emit("make_turn", { roomName: currentRoomName, playerName });
   };
 
-  const setDiceSymbol = (symbol: IDiceSymbols) => {
-    socket.emit("set_dice_symbol", {
-      roomName: currentRoomName,
-      playerName,
-      symbol,
-    });
-    setDiced(true);
-    setTimeout(() => setShowPopup(false), 2000);
-  };
-
   const showWhoIsPlaying = (curPlayerUsername: string) => {
     if (curPlayerUsername === playerName) {
-      setPopup({
+      displayToPopup({
         title: "Your turn!",
         message: "Shake the cube!",
+        type: "dice",
         component: <Dice setDiceSymbol={setDiceSymbol} />,
       });
     } else {
-      setPopup({
+      displayToPopup({
         title: "New turn",
         message: `${curPlayerUsername} is playing `,
+        type: "message",
         component: null,
       });
     }
-    setShowPopup(true);
+  };
+  socket.on("server_message", (message: IPopup) => {
+    displayToPopup(message);
+  });
+  socket.on("finish", (gameData: IGameData) => {
+    setGameData(gameData);
+  });
+
+  const onWinClick = () => {
+    if (isWinner)
+      socket.emit("submit_win", { roomName: currentRoomName, playerName });
   };
 
   const addBuilding = (
@@ -166,20 +174,68 @@ const Game = () => {
     });
   };
 
-  socket.on(
-    "server_message",
-    ({ title, message }: { title: string; message: string }) => {
-      console.log(title);
+  const displayToPopup = ({
+    title,
+    message,
+    component = null,
+    type,
+  }: IPopup) => {
+    setPopup({
+      title,
+      message,
+      type,
+      component,
+    });
+    setShowPopup(true);
 
-      setShowPopup(true);
-      setPopup({
-        title,
-        message,
-        component: null,
-      });
-      setTimeout(() => setShowPopup(false), 5000);
+    if (type === "dice") {
+      setWantToShowPopup(true);
+      return;
     }
-  );
+    setWantToShowPopup(false);
+    setTimeout(() => tryToClose(), 5000);
+  };
+
+  const tryToClose = () => {
+    if (wantToShowPopup) return setShowPopup(true);
+    setShowPopup(false);
+  };
+
+  const setDiceSymbol = (symbol: IDiceSymbols) => {
+    setDiced(true);
+    socket.emit("set_dice_symbol", {
+      roomName: currentRoomName,
+      playerName,
+      symbol,
+    });
+    setShowPopup(true);
+    setWantToShowPopup(false);
+    setTimeout(() => tryToClose(), 2000);
+  };
+
+  const buyToken = (
+    resource: "air" | "food" | "mineral",
+    to: "three" | "eight"
+  ) => {
+    socket.emit("buy_token", {
+      roomName: currentRoomName,
+      playerName,
+      resource,
+      to,
+    });
+  };
+
+  const sellToken = (
+    resource: "air" | "food" | "mineral",
+    from: "three" | "eight"
+  ) => {
+    socket.emit("sell_token", {
+      roomName: currentRoomName,
+      playerName,
+      resource,
+      from,
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -187,11 +243,13 @@ const Game = () => {
         <div className={styles.game_area}>
           <div className={styles.game_area__control}>
             <ControlPanel
-              playerName={playerName}
               color={privateGameState.color}
-              isActive={isMyTurn && diced}
-              onTurnClick={onTurnClick}
+              playerName={playerName}
               totalGameTurn={gameData.totalGameTurn}
+              isActive={isMyTurn && diced}
+              isWinner={isWinner}
+              onTurnClick={onTurnClick}
+              onWinClick={onWinClick}
             />
           </div>
           <div className={styles.game_area__board}>
@@ -202,23 +260,16 @@ const Game = () => {
             />
           </div>
           <div className={styles.game_area__costs}>
-            <CostsTable
-              buildingCosts={{
-                air_station: { food: 2, mineral: 2 },
-                food_station: { air: 2, mineral: 2 },
-                mineral_station: { air: 2, food: 2 },
-                base: { air: 3, food: 3, mineral: 3 },
-                laboratory: { air: 4, mineral: 3 },
-                peaceful_mission: { air: 3, food: 1 },
-                agressive_mission: { air: 1, mineral: 3 },
-                road: { road_cards: 3 },
-                H2O_station: { air: 8, food: 8, mineral: 8 },
-              }}
+            <InfoTables
               color={privateGameState.color}
+              buyToken={buyToken}
+              sellToken={sellToken}
+              isActive={isMyTurn && diced}
             />
           </div>
           <div className={styles.game_area__inventory}>
             <Inventory
+              color={privateGameState.color}
               cards={privateGameState.cards}
               resource_tokens={privateGameState.resource_tokens}
               mission_cards={privateGameState.mission_cards}
@@ -244,6 +295,7 @@ const Game = () => {
           title={popup.title}
           message={popup.message}
           close={() => setShowPopup(false)}
+          type={popup.type}
           children={popup.component}
         />
       )}

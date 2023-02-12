@@ -1,0 +1,36 @@
+@import "src/index.scss";
+
+.box {
+  height: 100%;
+  display: flex;
+  .item_control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 12px;
+    &__btn {
+      height: 40%;
+      padding: 5px;
+      margin: 5px;
+      background-color: transparent;
+      border-radius: 4px;
+      img {
+        height: 20px;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+      &:disabled {
+        opacity: 0.4;
+      }
+      &.btn_buy {
+        background: rgb(41, 189, 41);
+        color: rgb(41, 189, 41);
+      }
+      &.btn_sell {
+        background: rgb(228, 228, 82);
+        color: rgb(228, 228, 82);
+      }
+    }
+  }
+}

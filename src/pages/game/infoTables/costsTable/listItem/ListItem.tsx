@@ -1,11 +1,10 @@
 import React from "react";
 import styles from "./listItem.module.scss";
 
-import { SmallResourceCard } from "../../items/Items";
-import { useAppDispatch } from "src/redux/store";
-import { setDesiredBuilding } from "src/redux/slices/gameSlice";
+import { SmallResourceCard } from "../../../items/Items";
+import { IUserData } from "../../../types";
 
-interface ListItem {
+interface IListItem {
   text: string;
   pricing: {
     air?: number;
@@ -23,21 +22,36 @@ interface ListItem {
     | "agressive_mission"
     | "road"
     | "H2O_station";
+  selected: boolean;
+  setDesiredBuilding: Function;
+  color: IUserData["color"];
 }
 
-const ListItem: React.FC<ListItem> = ({ text, pricing, building }) => {
+const ListItem: React.FC<IListItem> = ({
+  text,
+  pricing,
+  building,
+  selected,
+  setDesiredBuilding,
+  color,
+}) => {
   const pricingCards = Object.keys(pricing) as (keyof typeof pricing)[];
-  const dispatch = useAppDispatch();
 
   const onSetDesiredBuildingClick = () => {
-    dispatch(setDesiredBuilding(building));
+    setDesiredBuilding(building);
   };
 
   return (
     <li className={styles.list_item}>
       <div className={styles.list_item__text}>
-        <p className={styles.badge} onClick={onSetDesiredBuildingClick} />
-        <span>{text}</span>
+        <p
+          className={`${styles.badge} ${selected ? styles[color] : ""} ${
+            styles.color
+          }`}
+        />
+        <span className={`${selected ? styles[color] : ""} ${styles.color}`}>
+          {text}
+        </span>
       </div>
       <div className={styles.list_item__costs}>
         {pricingCards.map((priceGroup, index) => {
