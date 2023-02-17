@@ -13,15 +13,9 @@ const Rooms: React.FC = () => {
   const navigate = useNavigate();
   const [rooms, setRooms] = React.useState<IRoomCard[]>();
   const [inputPlayerName, setInputPlayerName] = React.useState<string>("");
-  React.useEffect(() => {
-    onFetchClick();
-    setInputPlayerName("Elze");
-    dispatch(setPlayerName("Elze"));
-  }, []);
 
   const onFetchClick = async () => {
     const { payload } = await dispatch(fetchRooms());
-
     setRooms(payload.rooms);
   };
 

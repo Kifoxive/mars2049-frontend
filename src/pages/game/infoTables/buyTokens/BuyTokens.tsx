@@ -16,8 +16,6 @@ const BuyTokens: React.FC<IBuyTokens> = ({
   sellToken,
   isActive,
 }) => {
-  const onBuyClick = () => {};
-
   return (
     <div className={`${styles.container} ${styles[color]}`}>
       <h3>Buy tokens</h3>

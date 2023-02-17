@@ -45,13 +45,12 @@ const ListItem: React.FC<IListItem> = ({
     <li className={styles.list_item}>
       <div className={styles.list_item__text}>
         <p
-          className={`${styles.badge} ${selected ? styles[color] : ""} ${
-            styles.color
+          onClick={onSetDesiredBuildingClick}
+          className={`${styles.badge} ${styles[building]} ${
+            selected && styles[color]
           }`}
         />
-        <span className={`${selected ? styles[color] : ""} ${styles.color}`}>
-          {text}
-        </span>
+        <span className={`${selected && styles[color]}`}>{text}</span>
       </div>
       <div className={styles.list_item__costs}>
         {pricingCards.map((priceGroup, index) => {

@@ -5,11 +5,27 @@
   position: absolute;
   transform: translate(-50%, -50%);
   &__wrapper {
-    background-color: red;
     border: 1px solid black;
     height: 38px;
     width: 38px;
-    transform-origin: center;
+    // transform-origin: center;
+
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+    border-radius: 50%;
+    &.air_station {
+      background-image: url("../../../assets/air-station.png");
+    }
+    &.food_station {
+      background-image: url("../../../assets/food-station.png");
+    }
+    &.mineral_station {
+      background-image: url("../../../assets/mineral-station.png");
+    }
+    &.base {
+      background-image: url("../../../assets/white-star.png");
+    }
     &.green {
       background-color: $player-green;
     }
@@ -22,30 +38,11 @@
     &.blue {
       background-color: $player-blue;
     }
-    &.air_station {
-      // border: 2px solid black;
-      border-radius: 50%;
+    &.laboratory_two {
+      background-image: url("../../../assets/laboratory-two.png");
     }
-    &.food_station {
-      // border: 2px solid black;
-      border-radius: 50%;
-    }
-    &.mineral_station {
-      // border: 2px solid black;
-      border-radius: 50%;
-    }
-    &.base {
-      // border: 2px solid white;
-      border-radius: 50%;
-      background-image: url(../../../assets/white-star.png);
-      background-repeat: no-repeat;
-      background-size: 60%;
-      background-position: center;
-      // height: 180px;
-      // border-radius: 50% 50% 0 0;
-      // width: 20px;
-    }
-    &.laboratory {
+    &.laboratory_three {
+      background-image: url("../../../assets/laboratory-three.png");
     }
     &.peaceful_mission {
     }
@@ -54,13 +51,13 @@
     &.road {
       height: 60px;
       width: 10px;
+      border-radius: 0;
     }
     &.H2O_station {
-      border-radius: 10px;
+      background-image: url("../../../assets/h2o-station.png");
+      background-size: 110%;
     }
-
     &:hover {
-      // opacity: 0.6;
       border: 1px dashed black;
     }
   }

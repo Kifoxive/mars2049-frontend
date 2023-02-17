@@ -10,7 +10,7 @@
     padding: 10px;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: start;
+    justify-content: flex-end;
     gap: 20px;
     .token_group {
       display: flex;
@@ -26,7 +26,6 @@
     }
     .card_stack {
       width: 60px;
-      // margin: 0 30px;
       position: relative;
     }
     &.green {

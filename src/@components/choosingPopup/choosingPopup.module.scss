@@ -1,0 +1,90 @@
+@import "src/index.scss";
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 21;
+
+  .wrapper {
+    overflow: hidden;
+    width: 500px;
+    position: relative;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 10px;
+    background-color: $second;
+
+    .title {
+      background-color: $third;
+      padding: 10px;
+      text-align: center;
+      font-size: 26px;
+      img {
+        margin-left: 10px;
+        width: 30px;
+      }
+    }
+
+    .description {
+      padding: 10px;
+      font-size: 22px;
+    }
+
+    &__discovery {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 10px;
+    }
+
+    &__robbery {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      ul {
+        width: 100%;
+        display: flex;
+        list-style-type: none;
+        li {
+          display: block;
+          margin-right: 10px;
+          button {
+            box-sizing: padding-box;
+            padding: 5px 10px;
+            background-color: inherit;
+            font-size: 22px;
+            &._selected {
+              text-decoration: underline;
+            }
+            &.green {
+              background-color: $player-green;
+            }
+            &.orange {
+              background-color: $player-orange;
+            }
+            &.pink {
+              background-color: $player-pink;
+            }
+            &.blue {
+              background-color: $player-blue;
+            }
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+      .cards_box {
+        min-height: 100px;
+        flex-grow: 4;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+      }
+    }
+  }
+}

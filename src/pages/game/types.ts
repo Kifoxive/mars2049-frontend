@@ -16,7 +16,7 @@ export type IUserData = {
     mineral: number;
   };
 
-  labaratories: {
+  laboratories: {
     rate: 4 | 3 | 2;
     two: number;
     three: number;
@@ -63,7 +63,8 @@ export enum buildings {
   "food_station",
   "mineral_station",
   "base",
-  "laboratory",
+  "two_laboratory",
+  "three_laboratory",
   "road",
   "H2O_station",
 }
@@ -91,6 +92,11 @@ export type IGameData = {
   totalGameTurn: number;
   winner: IUserData;
   diceSymbol: IDiceSymbols;
+  playersNames: string[];
+  // {name: color, anotherName: color}
+  playersColors: object;
+  // {name: <IUserData>, anotherName: <IUserData>
+  playersObj: object;
 };
 
 export type IDiceSymbols =
@@ -104,7 +110,7 @@ export type IDiceSymbols =
 export type IPossibleBuildings =
   | "all"
   | "no_base"
-  | "no_labaratory"
+  | "no_laboratory"
   | "station"
   | "road"
   | "H2O_station";
@@ -114,4 +120,14 @@ export type IPopup = {
   message: string;
   type: "message" | "error" | "dice";
   component: null | React.ReactElement;
+};
+
+export type IChoosingPopup = {
+  type: "discovery" | "robbery" | null;
+};
+
+export type ISendAction = {
+  type: "discovery" | "robbery";
+  resource: "air" | "food" | "mineral" | "road_cards";
+  opponent?: string;
 };

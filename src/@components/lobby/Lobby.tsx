@@ -3,7 +3,7 @@ import styles from "./lobby.module.scss";
 
 import { PlayerLobbyCard, Button } from "src/@components";
 import { profile } from "src/assets";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface ILobby {
   players: string[];
   isCreator: boolean;

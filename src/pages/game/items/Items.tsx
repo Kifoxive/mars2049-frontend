@@ -26,12 +26,29 @@ interface IResourceCard {
     | "agressive_mission"
     | "road_cards";
   shift?: number;
+  alone?: boolean;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
-export const ResourceCard: React.FC<IResourceCard> = ({ resource, shift }) => {
+const resourceNames = {
+  air: "Air",
+  food: "Food",
+  mineral: "Minerals",
+  road_cards: "Road",
+  peaceful_mission: "Peaceful mission",
+  agressive_mission: "Agressive mission",
+};
+
+export const ResourceCard: React.FC<IResourceCard> = ({
+  resource,
+  shift,
+  alone,
+  onClick,
+}) => {
   return (
     <div
-      className={styles.resource_card}
+      onClick={alone ? onClick : undefined}
+      className={`${styles.resource_card} ${alone && styles.alone}`}
       style={
         shift
           ? {
@@ -42,7 +59,9 @@ export const ResourceCard: React.FC<IResourceCard> = ({ resource, shift }) => {
           : {}
       }
     >
-      <div className={`${styles.resource_card__box} ${styles[resource]}`} />
+      <div className={`${styles.resource_card__box} ${styles[resource]}`}>
+        <p className={styles.text}>{resourceNames[resource]}</p>
+      </div>
     </div>
   );
 };
@@ -78,7 +97,8 @@ export const ResourceToken: React.FC<IResourceToken> = ({
       }
     >
       <div className={`${styles.resource_token__box} ${styles[type]}`}>
-        {text}
+        <span className={styles.number}>{text}</span>
+        <svg className={`${styles[type]}`} />
       </div>
     </div>
   );
@@ -99,26 +119,26 @@ export const Dice: React.FC<IDice> = ({ setDiceSymbol }) => {
   ];
   const [dicedCount, setDicedCount] = useState<number>(0);
 
-  //select the classes we require
+  // select the classes we require
   const cube = React.useRef<null | HTMLDivElement>(null);
   // const [diceResult, setDiceResult] = React.useState<IDiceSymbols | null>(null);
   const [currentClass, setCurrentClass] = React.useState<string>("");
 
-  //this function will generate a random number between 1 and 6 (or whatever value you send it)
+  // this function will generate a random number between 1 and 6 (or whatever value you send it)
   function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min); // the maximum is exclusive and the minimum is inclusive
   }
 
-  //our main roll dice function on click
+  // our main roll dice function on click
   function rollDice() {
     if (dicedCount > 1) return;
     setDicedCount((prev) => ++prev);
 
-    //genberate a random number between 1 and 6 with out getRandomInt function
+    // genberate a random number between 1 and 6 with out getRandomInt function
     let randNum = getRandomInt(0, 6);
-    //generate a class with the random number between 1 - 6 called showClass
+    // generate a class with the random number between 1 - 6 called showClass
     let showClass = "show-" + randNum;
     let result = diceSymbols[randNum];
 
@@ -130,7 +150,7 @@ export const Dice: React.FC<IDice> = ({ setDiceSymbol }) => {
     }
     // add the new showclass with the generated number
     cube.current?.classList.add(showClass);
-    //set the current class to the randomly generated number
+    // set the current class to the randomly generated number
     setCurrentClass(showClass);
     if (dicedCount === 1) setDiceSymbol(result);
   }
@@ -147,21 +167,23 @@ export const Dice: React.FC<IDice> = ({ setDiceSymbol }) => {
         onClick={() => rollDice()}
       >
         <div className={`${styles.cube__face} ${styles.cube__face_0}`}>
-          discovery
+          {/* discovery */}
         </div>
         <div className={`${styles.cube__face} ${styles.cube__face_1}`}>
-          robbery
+          {/* robbery */}
         </div>
         <div className={`${styles.cube__face} ${styles.cube__face_2}`}>
-          mineral
+          {/* mineral */}
         </div>
         <div className={`${styles.cube__face} ${styles.cube__face_3}`}>
-          food
+          {/* food */}
         </div>
         <div className={`${styles.cube__face} ${styles.cube__face_4}`}>
-          skip
+          {/* skip */}
         </div>
-        <div className={`${styles.cube__face} ${styles.cube__face_5}`}>air</div>
+        <div className={`${styles.cube__face} ${styles.cube__face_5}`}>
+          {/* air */}
+        </div>
       </div>
     </div>
   );

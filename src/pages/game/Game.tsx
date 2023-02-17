@@ -4,19 +4,28 @@ import styles from "./game.module.scss";
 import Board from "../../@components/board/Board";
 import { useAppSelector } from "../../redux/store";
 import { io, Socket } from "socket.io-client";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Lobby } from "src/@components";
 import ControlPanel from "./controlPanel/ControlPanel";
-import CostsTable from "./infoTables/costsTable/CostsTable";
-import { buildings, IDiceSymbols, IPopup, IUserData } from "./types";
+import {
+  buildings,
+  IChoosingPopup,
+  IDiceSymbols,
+  IPlayerColor,
+  IPopup,
+  ISendAction,
+  IUserData,
+} from "./types";
 import Inventory from "./inventory/Inventory";
 import { Dice } from "./items/Items";
 import { IGameData } from "src/pages/game/types";
 import Popup from "../../@components/popup/Popup";
-import { useAppDispatch } from "src/redux/store";
-import { setDesiredBuilding } from "src/redux/slices/gameSlice";
 import InfoTables from "./infoTables/InfoTables";
-// import { setSocket } from "src/redux/slices/gameSlice";
+import FinalPopup from "src/@components/finalPopup/FinalPopup";
+import ChoosingPopup from "src/@components/choosingPopup/ChoosingPopup";
+
+const API_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001/";
+console.log(process.env.REACT_APP_SERVER_URL);
 
 const Game = () => {
   const { currentRoomName, playerName } = useAppSelector(
@@ -42,25 +51,28 @@ const Game = () => {
   const [diced, setDiced] = useState<boolean>(false);
   const [wantToShowPopup, setWantToShowPopup] = useState<boolean>(false);
   const [isWinner, setIsWinner] = useState<boolean>(false);
+  const [isGameFinished, setIsGameFinished] = useState<boolean>(false);
+  const [winnerData, setWinnerData] = useState<{
+    username: string;
+    color: IPlayerColor;
+  } | null>(null);
 
-  // const { desiredBuilding } = useAppSelector((state) => state.game);
+  const [choosingPopup, setChoosingPopup] = useState<IChoosingPopup>({
+    type: null,
+  });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSocket(
-      io("http://localhost:3001/", {
+      io(API_URL, {
         withCredentials: true,
         extraHeaders: {
-          "Access-Control-Allow-Origin": "http://localhost:3001/",
+          "Access-Control-Allow-Origin": API_URL,
         },
       })
     );
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(setSocket());
-  // }, []);
-
-  // const { socket } = useAppSelector((state) => state.game);
 
   useEffect(() => {
     if (!socket) return;
@@ -98,12 +110,8 @@ const Game = () => {
     setPrivateGameState(playerData);
   });
 
-  socket.on("new_turn", (game: IGameData) => {
-    showWhoIsPlaying(game.currentTurnPlayer.username);
-    // setIsStartGame(true);
-    // setCurTurnPlayer(game.currentTurnPlayer);
-    // setIsMyTurn(game.currentTurnPlayer.username === playerName);
-    // showWhoIsPlaying(game.currentTurnPlayer.username);
+  socket.on("new_turn", (username: string) => {
+    showWhoIsPlaying(username);
   });
 
   socket.on("get_public_game_data", (game: IGameData) => {
@@ -125,6 +133,33 @@ const Game = () => {
     setGameData(gameData);
   });
 
+  socket.on("server_message", (message: IPopup) => {
+    displayToPopup(message);
+  });
+
+  socket.on(
+    "finish",
+    ({ username, color }: { username: string; color: IPlayerColor }) => {
+      setIsGameFinished(true);
+      setWinnerData({ username, color });
+      setGameData(gameData);
+    }
+  );
+
+  socket.on("remove_room", () => {
+    socket.disconnect();
+    navigate("/rooms");
+  });
+
+  socket.on("allow_action", (type: "discovery" | "robbery") => {
+    setChoosingPopup({ type });
+  });
+
+  const onWinClick = () => {
+    if (isWinner)
+      socket.emit("submit_win", { roomName: currentRoomName, playerName });
+  };
+
   const onTurnClick = () => {
     if (!isMyTurn) return;
     setDiced(false);
@@ -133,6 +168,7 @@ const Game = () => {
 
   const showWhoIsPlaying = (curPlayerUsername: string) => {
     if (curPlayerUsername === playerName) {
+      // setDiced(false);
       displayToPopup({
         title: "Your turn!",
         message: "Shake the cube!",
@@ -147,17 +183,6 @@ const Game = () => {
         component: null,
       });
     }
-  };
-  socket.on("server_message", (message: IPopup) => {
-    displayToPopup(message);
-  });
-  socket.on("finish", (gameData: IGameData) => {
-    setGameData(gameData);
-  });
-
-  const onWinClick = () => {
-    if (isWinner)
-      socket.emit("submit_win", { roomName: currentRoomName, playerName });
   };
 
   const addBuilding = (
@@ -193,7 +218,6 @@ const Game = () => {
       return;
     }
     setWantToShowPopup(false);
-    setTimeout(() => tryToClose(), 5000);
   };
 
   const tryToClose = () => {
@@ -202,15 +226,23 @@ const Game = () => {
   };
 
   const setDiceSymbol = (symbol: IDiceSymbols) => {
-    setDiced(true);
-    socket.emit("set_dice_symbol", {
-      roomName: currentRoomName,
-      playerName,
-      symbol,
-    });
-    setShowPopup(true);
-    setWantToShowPopup(false);
-    setTimeout(() => tryToClose(), 2000);
+    console.log(symbol);
+
+    setTimeout(() => {
+      socket.emit("set_dice_symbol", {
+        roomName: currentRoomName,
+        playerName,
+        symbol,
+      });
+      // setShowPopup(true);
+      // setWantToShowPopup(false);
+      // tryToClose();
+      setShowPopup(false);
+
+      if (symbol === "discovery" || symbol === "robbery") {
+        setChoosingPopup({ type: symbol });
+      } else setDiced(true);
+    }, 1000);
   };
 
   const buyToken = (
@@ -235,6 +267,24 @@ const Game = () => {
       resource,
       from,
     });
+  };
+
+  const tradeCards = (
+    from: "air" | "food" | "mineral",
+    to: "air" | "food" | "mineral"
+  ) => {
+    socket.emit("trade_cards", {
+      roomName: currentRoomName,
+      playerName,
+      from,
+      to,
+    });
+  };
+
+  const submitAction = (action: ISendAction) => {
+    tryToClose();
+    setDiced(true);
+    socket.emit("action", { roomName: currentRoomName, playerName, action });
   };
 
   return (
@@ -264,7 +314,9 @@ const Game = () => {
               color={privateGameState.color}
               buyToken={buyToken}
               sellToken={sellToken}
+              tradeCards={tradeCards}
               isActive={isMyTurn && diced}
+              exchangeRate={privateGameState.laboratories.rate}
             />
           </div>
           <div className={styles.game_area__inventory}>
@@ -297,6 +349,21 @@ const Game = () => {
           close={() => setShowPopup(false)}
           type={popup.type}
           children={popup.component}
+        />
+      )}
+      {isGameFinished && winnerData && gameData && (
+        <FinalPopup
+          isWinner={isWinner}
+          winnerData={winnerData}
+          totalTurn={gameData.totalGameTurn}
+        />
+      )}
+      {choosingPopup.type && gameData && (
+        <ChoosingPopup
+          type={choosingPopup.type}
+          submitAction={submitAction}
+          playerName={playerName}
+          gameData={gameData}
         />
       )}
     </div>

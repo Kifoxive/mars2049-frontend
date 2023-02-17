@@ -19,38 +19,73 @@
       width: 30px;
       background-color: $first;
       border-radius: 50%;
+
+      background-repeat: no-repeat;
+      background-size: 60%;
+      background-position: center;
+      border-radius: 50%;
+
+      &.air_station {
+        background-image: url("../../../../../assets/air-station.png");
+      }
+      &.food_station {
+        background-image: url("../../../../../assets/food-station.png");
+      }
+      &.mineral_station {
+        background-image: url("../../../../../assets/mineral-station.png");
+      }
+      &.base {
+        background-color: $black;
+        background-image: url("../../../../../assets/white-star.png");
+      }
       &.green {
-        border: 3px solid $player-green;
+        background-color: $player-green;
       }
       &.orange {
-        border: 3px solid $player-orange;
+        background-color: $player-orange;
       }
       &.pink {
-        border: 3px solid $player-pink;
+        background-color: $player-pink;
       }
       &.blue {
-        border: 3px solid $player-blue;
+        background-color: $player-blue;
+      }
+      &.laboratory {
+        background-image: url("../../../../../assets/laboratory-two.png");
+      }
+      &.peaceful_mission {
+        background-image: url("../../../../../assets/peaceful-mission.png");
+      }
+      &.agressive_mission {
+        background-image: url("../../../../../assets/agressive-mission.png");
+      }
+      &.road {
+        border-radius: 0;
+        height: 30px;
+        width: 6px;
+        margin-left: 13px;
+        margin-right: 20px;
+      }
+      &.H2O_station {
+        background-image: url("../../../../../assets/h2o-station.png");
+        background-size: 110%;
       }
     }
     & span {
       &.green {
         color: $player-green;
-        // text-decoration: underline;
         text-decoration-color: $player-green;
       }
       &.orange {
         color: $player-orange;
-        // text-decoration: underline;
         text-decoration-color: $player-orange;
       }
       &.pink {
         color: $player-pink;
-        // text-decoration: underline;
         text-decoration-color: $player-pink;
       }
       &.blue {
         color: $player-blue;
-        // text-decoration: underline;
         text-decoration-color: $player-blue;
       }
     }

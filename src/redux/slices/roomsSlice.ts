@@ -1,17 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ICreateRoom, roomsApi } from "../../api/api";
+import { roomsApi } from "../../api/api";
 
 export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
   const { data } = await roomsApi.getRooms();
   return data;
 });
-// export const createRoom = createAsyncThunk(
-//   "rooms/createRoom",
-//   async (obj: ICreateRoom) => {
-//     const { data } = await roomsApi.createRoom(obj);
-//     return data;
-//   }
-// );
 
 export interface RoomsState {
   rooms: number[];

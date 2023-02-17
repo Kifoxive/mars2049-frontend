@@ -1,6 +1,7 @@
 @import "src/index.scss";
 
 .container {
+  overflow: hidden;
   height: 100vh;
   background-image: url(https://th.bing.com/th/id/R.b170bf8994dd483f6aa168edc55891f9?rik=SPSa8dqbDG2O7Q&riu=http%3a%2f%2f3.bp.blogspot.com%2f-z51ygEfbeoY%2fUiAURXmjNHI%2fAAAAAAAAJYU%2fA7wYhOPvEBA%2fs1600%2fBackground-Stars.jpg&ehk=PfGf1evN%2fzAHJFejtEUP5swE2ucsI1jcOrFPTtQTL%2bE%3d&risl=&pid=ImgRaw&r=0);
   .game_area {

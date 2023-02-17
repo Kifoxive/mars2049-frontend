@@ -3,22 +3,28 @@ import styles from "./infoTables.module.scss";
 
 import { IPlayerColor } from "../types";
 import CostsTable from "./costsTable/CostsTable";
-import { factory, mission, tokens } from "src/assets";
+import { factory, tokens, trading, mission } from "src/assets";
 import BuyTokens from "./buyTokens/BuyTokens";
+import TradeCards from "./tradeCards/TradeCards";
+import MissionCards from "./missionCards/MissionCards";
 
 interface IInfoTables {
   color: IPlayerColor;
   buyToken: Function;
   sellToken: Function;
+  tradeCards: Function;
   isActive: boolean;
+  exchangeRate: number;
 }
-type views = "pricesTable" | "buyTokens" | "missionCards";
+type views = "pricesTable" | "buyTokens" | "tradeCards" | "missionCards";
 
 const InfoTables: React.FC<IInfoTables> = ({
   color,
   buyToken,
   sellToken,
+  tradeCards,
   isActive,
+  exchangeRate,
 }) => {
   const [currentTableView, setCurrentTableView] =
     useState<views>("pricesTable");
@@ -54,8 +60,14 @@ const InfoTables: React.FC<IInfoTables> = ({
             sellToken={sellToken}
             isActive={isActive}
           />
+        ) : currentTableView === "tradeCards" ? (
+          <TradeCards
+            color={color}
+            tradeCards={tradeCards}
+            exchangeRate={exchangeRate}
+          />
         ) : currentTableView === "missionCards" ? (
-          <div>missions</div>
+          <MissionCards color={color} />
         ) : (
           <div>smth else</div>
         )}
@@ -75,6 +87,14 @@ const InfoTables: React.FC<IInfoTables> = ({
             className={currentTableView === "buyTokens" ? styles._selected : ""}
           >
             <img src={tokens} alt="buyTokens" />
+          </button>
+          <button
+            value="tradeCards"
+            className={
+              currentTableView === "tradeCards" ? styles._selected : ""
+            }
+          >
+            <img src={trading} alt="tradeCards" />
           </button>
           <button
             value="missionCards"

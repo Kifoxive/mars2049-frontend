@@ -6,7 +6,8 @@
     position: relative;
     padding: 10px 30px;
     font-size: 18px;
-    font-family: sans-serif;
+    font-family: "Exo 2", sans-serif;
+    font-weight: 300;
     box-sizing: border-box;
     text-transform: uppercase;
     color: $first;
@@ -23,11 +24,12 @@
       background-color: rgb(115, 226, 51);
       box-shadow: 0 5px 0 0 rgb(91, 180, 40);
     }
-    &:hover {
-      transition: 0.4s;
-      box-shadow: none;
-      top: 5px;
-      box-shadow: none;
-    }
+  }
+
+  &:hover button {
+    transition: 0.4s;
+    box-shadow: none;
+    top: 5px;
+    box-shadow: none;
   }
 }

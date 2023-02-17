@@ -6,12 +6,12 @@
   height: 100%;
   z-index: 15;
   background-color: $fourth;
+  font-family: "Exo 2", sans-serif;
   .wrapper {
     height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: sans-serif;
     &__player_name {
       height: 100%;
       padding: 0 20px;
@@ -42,6 +42,7 @@
       .counter {
         padding: 5px 20px;
         font-size: 20px;
+        font-family: "Exo 2", sans-serif;
       }
       .finishButton_container {
         // height: 60px;

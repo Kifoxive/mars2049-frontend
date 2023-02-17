@@ -9,5 +9,10 @@
   background-color: $fifth;
   .wrapper {
     max-width: 800px;
+    .back_btn {
+      position: absolute;
+      top: 30px;
+      left: 80px;
+    }
   }
 }

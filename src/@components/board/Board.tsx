@@ -73,7 +73,7 @@ function makeShift(shift: number, meridian: number) {
 const PossibleBuildings = {
   all: ["air_station", "food_station", "mineral_station", "base", "laboratory"],
   no_base: ["air_station", "food_station", "mineral_station", "laboratory"],
-  no_labaratory: ["air_station", "food_station", "mineral_station", "base"],
+  no_laboratory: ["air_station", "food_station", "mineral_station", "base"],
   station: ["air_station", "food_station", "mineral_station"],
   road: ["road"],
   H2O_station: ["H2O_station"],

@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./resourceSectionItem.module.scss";
 
 import { ResourceToken } from "src/pages/game/items/Items";
-import { shopping_cart, return_button } from "src/assets";
 
 interface IResourceSectionItem {
   type:
@@ -34,7 +33,7 @@ const ResourceSectionItem: React.FC<IResourceSectionItem> = ({
           disabled={!isActive}
         >
           {/* buy */}
-          <img src={shopping_cart} alt="shopping cart" />
+          {/* <img src={shopping_cart} alt="shopping cart" /> */}
         </button>
         <button
           onClick={onSellClick}
@@ -42,7 +41,7 @@ const ResourceSectionItem: React.FC<IResourceSectionItem> = ({
           disabled={!isActive}
         >
           {/* sell */}
-          <img src={return_button} alt="return button" />
+          {/* <img src={return_button} alt="return button" /> */}
         </button>
       </div>
       <ResourceToken type={type} text={text} />

@@ -10,13 +10,14 @@
     margin-right: 12px;
     &__btn {
       height: 40%;
+      width: 30px;
       padding: 5px;
       margin: 5px;
       background-color: transparent;
       border-radius: 4px;
-      img {
-        height: 20px;
-      }
+      // img {
+      //   height: 20px;
+      // }
       &:hover {
         opacity: 0.8;
       }
@@ -24,11 +25,13 @@
         opacity: 0.4;
       }
       &.btn_buy {
-        background: rgb(41, 189, 41);
+        background: rgb(41, 189, 41)
+          url("../../../../../assets/shopping-cart.png") center / 70% no-repeat;
         color: rgb(41, 189, 41);
       }
       &.btn_sell {
-        background: rgb(228, 228, 82);
+        background: rgb(228, 228, 82)
+          url("../../../../../assets/return_button.png") center / 70% no-repeat;
         color: rgb(228, 228, 82);
       }
     }
